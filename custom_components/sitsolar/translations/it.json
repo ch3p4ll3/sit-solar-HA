@@ -1,0 +1,30 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connessione sitSolar",
+        "description": "Configura il tuo account sitSolar (EnjoySolar) per il monitoraggio fotovoltaico.",
+        "data": {
+          "username": "Email o numero di telefono",
+          "password": "Password",
+          "base_url": "URL base API (opzionale, predefinito: https://enjoysolar.si-neng.com)"
+        }
+      },
+      "station": {
+        "title": "Seleziona Stazione",
+        "description": "Scegli quale stazione solare monitorare.",
+        "data": {
+          "station_code": "Stazione"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossibile connettersi al server sitSolar",
+      "invalid_auth": "Username o password non validi",
+      "unknown": "Errore imprevisto"
+    },
+    "abort": {
+      "already_configured": "Questo account è già configurato"
+    }
+  }
+}
