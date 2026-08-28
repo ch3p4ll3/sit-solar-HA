@@ -55,7 +55,7 @@ class SitSolarDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             if self._client is None or not self._client.authenticated:
                 await self._async_setup()
 
-            energy_flow = await self._client.get_energy_flow(self._station_code)
+            energy_flow = await self._client.get_energy_flow_realtime(self._station_code)
             overview = await self._client.get_single_overview(self._station_code)
 
             return {
@@ -71,7 +71,7 @@ class SitSolarDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             except SitSolarApiError as login_err:
                 raise UpdateFailed(f"Re-login failed: {login_err}") from login_err
             try:
-                energy_flow = await self._client.get_energy_flow(self._station_code)
+                energy_flow = await self._client.get_energy_flow_realtime(self._station_code)
                 overview = await self._client.get_single_overview(self._station_code)
                 return {
                     "energy_flow": energy_flow,

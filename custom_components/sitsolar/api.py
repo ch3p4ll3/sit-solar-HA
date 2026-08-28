@@ -256,6 +256,8 @@ class SitSolarApiClient:
                     )
 
                 code = result.get("code", 0)
+                if code in ERROR_TOKEN_EXPIRED:
+                    raise SitSolarAuthError(code, result.get("msg", "Token expired"))
                 if code != ERROR_SUCCESS:
                     raise SitSolarApiError(code, result.get("msg", f"Error code {code}"))
 
