@@ -84,7 +84,7 @@ SENSOR_DESCRIPTIONS = [
         native_unit_of_measurement=UnitOfPower.KILO_WATT,
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda ef, _: ef.mppt_power if ef else None,
+        value_fn=lambda ef, _: (ef.mppt_power + ef.ac_coupled_power) if ef else None,
     ),
     SitSolarSensorDescription(
         key="grid_power",
@@ -125,6 +125,22 @@ SENSOR_DESCRIPTIONS = [
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda ef, _: ef.battery_power if ef else None,
+    ),
+    SitSolarSensorDescription(
+        key="battery_charge_power",
+        name="Battery Charge Power",
+        native_unit_of_measurement=UnitOfPower.KILO_WATT,
+        device_class=SensorDeviceClass.POWER,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda ef, ov: ov.battery_charge_power if ov else None,
+    ),
+    SitSolarSensorDescription(
+        key="battery_discharge_power",
+        name="Battery Discharge Power",
+        native_unit_of_measurement=UnitOfPower.KILO_WATT,
+        device_class=SensorDeviceClass.POWER,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda ef, ov: ov.battery_discharge_power if ov else None,
     ),
     SitSolarSensorDescription(
         key="battery_soc",
@@ -228,5 +244,21 @@ SENSOR_DESCRIPTIONS = [
         device_class=SensorDeviceClass.ENERGY,
         state_class=SensorStateClass.TOTAL_INCREASING,
         value_fn=lambda ef, ov: ov.total_grid_import if ov else None,
+    ),
+    SitSolarSensorDescription(
+        key="total_battery_charge",
+        name="Total Battery Charge",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        value_fn=lambda ef, ov: ov.total_battery_charge if ov else None,
+    ),
+    SitSolarSensorDescription(
+        key="total_battery_discharge",
+        name="Total Battery Discharge",
+        native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
+        device_class=SensorDeviceClass.ENERGY,
+        state_class=SensorStateClass.TOTAL_INCREASING,
+        value_fn=lambda ef, ov: ov.total_battery_discharge if ov else None,
     ),
 ]

@@ -111,6 +111,8 @@ class StationOverview(BaseModel):
     total_grid_export: float = 0.0
     total_grid_import: float = 0.0
     total_self_use_power: float = 0.0
+    total_battery_charge: float = 0.0
+    total_battery_discharge: float = 0.0
     battery_soc: float = 0.0
     battery_soh: float = 0.0
     battery_charge_power: float = 0.0
@@ -135,6 +137,8 @@ class StationOverview(BaseModel):
             total_grid_export=data.get("totalOngridPower", 0),
             total_grid_import=data.get("totalBuyGridPower", 0),
             total_self_use_power=data.get("totalSelfUsePower", 0),
+            total_battery_charge=data.get("totalCellCharge", 0),
+            total_battery_discharge=data.get("totalCellDischarge", 0),
             battery_soc=data.get("uwBatSoc", 0),
             battery_soh=data.get("batterySoh", 0),
             battery_charge_power=data.get("cellChargePower", 0),
