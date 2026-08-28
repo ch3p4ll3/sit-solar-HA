@@ -11,7 +11,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .api import SitSolarApiClient, SitSolarAuthError, SitSolarConnectionError
+from .api import SitSolarApiClient, SitSolarAuthError, SitSolarConnectionError, StationInfo
 from .const import (
     DEFAULT_BASE_URL,
     DEFAULT_SCAN_INTERVAL,
@@ -56,7 +56,7 @@ class SitSolarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self._base_url: str = DEFAULT_BASE_URL
         self._username: str = ""
         self._password: str = ""
-        self._stations: list[dict[str, Any]] = []
+        self._stations: list[StationInfo] = []
         self._client: SitSolarApiClient | None = None
 
     async def async_step_user(
@@ -92,10 +92,7 @@ class SitSolarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors["base"] = "cannot_connect"
                 elif len(self._stations) == 1:
                     # Only one station, auto-select
-                    station_code = self._stations[0].get(
-                        "stationCode",
-                        self._stations[0].get("station_code", ""),
-                    )
+                    station_code = self._stations[0].station_code
                     return await self._create_entry(station_code)
                 else:
                     # Multiple stations, let user choose
@@ -118,9 +115,7 @@ class SitSolarConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # Build station options
         station_options = {}
         for station in self._stations:
-            code = station.get("stationCode", station.get("station_code", ""))
-            name = station.get("stationName", station.get("station_name", code))
-            station_options[code] = name
+            station_options[station.station_code] = station.station_name or station.station_code
 
         schema = vol.Schema(
             {
